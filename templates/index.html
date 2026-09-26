@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHRONOS // GAN — Bauhaus Photo Restoration & Colorization</title>
+    <!-- Google Fonts: Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body class="bauhaus-canvas">
+    <!-- Top Geometric Marquee Banner -->
+    <div class="top-banner">
+        <div class="banner-content">
+            <span class="shape-bullet circle-red"></span>
+            <span>AMRITA VISHWA VIDYAPEETHAM</span>
+            <span class="shape-bullet square-blue"></span>
+            <span>COURSE: 23CSE475 GENERATIVE AI</span>
+            <span class="shape-bullet triangle-yellow"></span>
+            <span>LAB 3: GENAI APPLICATION CASE STUDY</span>
+            <span class="shape-bullet circle-red"></span>
+            <span>CONDITIONAL GAN (PIX2PIX)</span>
+        </div>
+    </div>
+
+    <!-- Header Navigation -->
+    <header class="header">
+        <div class="header-container">
+            <div class="brand-group">
+                <!-- Iconic Bauhaus Geometric Logo -->
+                <div class="bauhaus-logo">
+                    <span class="logo-shape shape-circle"></span>
+                    <span class="logo-shape shape-square"></span>
+                    <span class="logo-shape shape-triangle"></span>
+                </div>
+                <div class="brand-text">
+                    <h1 class="brand-title">CHRONOS<span>//</span>GAN</h1>
+                    <p class="brand-subtitle">OLD PHOTO RESTORATION & COLORIZATION</p>
+                </div>
+            </div>
+
+            <!-- Team Information Box -->
+            <div class="team-box">
+                <div class="team-header">TEAM 01 // CASE STUDY</div>
+                <div class="team-list">
+                    <span>ASHIN VARGHESE &bull; CB.SC.U4CSE23504</span>
+                    <span>VISHNU SATHWICK &bull; CB.SC.U4CSE23644</span>
+                    <span>MADHAV SREEJITH &bull; CB.SC.U4CSE23661</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="main-container">
+        <!-- Hero Concept Block -->
+        <section class="hero-block">
+            <div class="hero-text-panel">
+                <span class="constructivist-tag">PIX2PIX IMAGE-TO-IMAGE TRANSLATION</span>
+                <h2 class="hero-headline">FORM FOLLOWS RESTORATION.</h2>
+                <p class="hero-description">
+                    Historical photographs suffer from scratches, noise, blur, and chromatic loss. 
+                    ChronosGAN uses a <strong>Conditional Generative Adversarial Network (U-Net + 70&times;70 PatchGAN)</strong> 
+                    trained on 4,319 landscape scenes to hallucinate lost colors and reconstruct degraded visual luminance.
+                </p>
+            </div>
+            <div class="hero-graphic-panel">
+                <div class="abstract-composition">
+                    <div class="comp-circle"></div>
+                    <div class="comp-square-rot"></div>
+                    <div class="comp-square"></div>
+                    <div class="comp-triangle"></div>
+                    <div class="comp-label">1926 &bull; 2026</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Benchmark Presets Section -->
+        <section class="bauhaus-section">
+            <div class="section-title-bar bg-blue">
+                <div class="title-with-shape">
+                    <span class="mini-square-yellow"></span>
+                    <h2 class="section-title">01 // SELECT BENCHMARK DEGRADED SCENE</h2>
+                </div>
+                <span class="section-badge">4 PRESETS LOADED</span>
+            </div>
+
+            <div class="samples-grid">
+                {% for sample in samples %}
+                <div class="sample-card" data-sample-id="{{ sample.id }}">
+                    <div class="card-geometric-corner corner-{{ loop.index % 3 }}"></div>
+                    <div class="sample-thumb-wrapper">
+                        <img src="{{ sample.thumb }}" alt="{{ sample.name }}" class="sample-thumb">
+                    </div>
+                    <div class="sample-info">
+                        <span class="sample-num">#0{{ loop.index }}</span>
+                        <span class="sample-name">{{ sample.name | upper }}</span>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <!-- Custom Upload Section -->
+        <section class="bauhaus-section">
+            <div class="section-title-bar bg-yellow">
+                <div class="title-with-shape">
+                    <span class="mini-circle-red"></span>
+                    <h2 class="section-title text-black">02 // OR UPLOAD CUSTOM ARCHIVAL PHOTOGRAPH</h2>
+                </div>
+                <span class="section-badge badge-dark">PNG &bull; JPG &bull; WEBP</span>
+            </div>
+
+            <div class="dropzone" id="dropzone">
+                <input type="file" id="fileInput" accept="image/*" class="file-input">
+                <div class="dropzone-inner">
+                    <div class="dropzone-icon-box">
+                        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#121212" stroke-width="3" stroke-linecap="square">
+                            <rect x="3" y="3" width="18" height="18" rx="0"></rect>
+                            <circle cx="8.5" cy="8.5" r="2.5"></circle>
+                            <polyline points="21 15 16 10 5 21"></polyline>
+                        </svg>
+                    </div>
+                    <h3 class="dropzone-header">CLICK TO SELECT FILE OR DROP DEGRADED PHOTO HERE</h3>
+                    <p class="dropzone-sub">Accepts 1-channel Grayscale or Degraded Color photographs up to 16MB</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Comparison Viewer -->
+        <section class="bauhaus-section" id="viewerSection">
+            <div class="section-title-bar bg-red">
+                <div class="title-with-shape">
+                    <span class="mini-triangle-white"></span>
+                    <h2 class="section-title">03 // INTERACTIVE RESTORATION & COLORIZATION</h2>
+                </div>
+                <div class="meta-strip" id="statsBadges" style="display: flex;">
+                    <div class="meta-chip">
+                        <span class="chip-label">ARCH:</span>
+                        <span class="chip-val">PIX2PIX U-NET</span>
+                    </div>
+                    <div class="meta-chip">
+                        <span class="chip-label">LATENCY:</span>
+                        <span class="chip-val" id="latencyStat">41.28 ms</span>
+                    </div>
+                    <div class="meta-chip">
+                        <span class="chip-label">SIZE:</span>
+                        <span class="chip-val" id="resStat">512&times;512</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Loading Mask -->
+            <div class="loading-overlay" id="loadingOverlay" style="display: none;">
+                <div class="loading-box">
+                    <div class="loading-spinner"></div>
+                    <div class="loading-text">GENERATING ADVERSARIAL COLORIZATION &bull; PLEASE WAIT</div>
+                </div>
+            </div>
+
+            <!-- Before / After Comparison Canvas -->
+            <div class="canvas-frame">
+                <div class="comparison-slider" id="slider">
+                    <!-- Before Image (Degraded) -->
+                    <div class="img-pane before-pane">
+                        <img id="beforeImg" src="/static/samples/sample_42_degraded.png" alt="Degraded Input">
+                        <div class="pane-flag before-flag">
+                            <span class="flag-icon square-black"></span>
+                            <span>INPUT // DEGRADED LUMINANCE</span>
+                        </div>
+                    </div>
+                    <!-- After Image (Restored) -->
+                    <div class="img-pane after-pane" id="afterWrapper">
+                        <img id="afterImg" src="/static/samples/sample_42_clean.png" alt="GAN Restored Output">
+                        <div class="pane-flag after-flag">
+                            <span class="flag-icon circle-white"></span>
+                            <span>SYNTHESIS // RESTORED + COLORIZED</span>
+                        </div>
+                    </div>
+                    <!-- Bauhaus Slider Divider -->
+                    <div class="slider-divider" id="sliderHandle">
+                        <div class="divider-line"></div>
+                        <div class="divider-grabber">
+                            <span class="grabber-arrow left-arrow">&#9664;</span>
+                            <span class="grabber-center"></span>
+                            <span class="grabber-arrow right-arrow">&#9654;</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Controls -->
+            <div class="action-strip">
+                <button class="bauhaus-btn btn-secondary" id="btnToggleSplit">
+                    <span class="btn-dot dot-yellow"></span>
+                    RESET TO 50/50 VIEW
+                </button>
+                <a class="bauhaus-btn btn-primary" id="btnDownload" download="chronosgan_restored.png" href="#">
+                    <span class="btn-dot dot-white"></span>
+                    DOWNLOAD RESTORED PHOTO
+                </a>
+            </div>
+        </section>
+
+        <!-- Technical System Architecture Section -->
+        <section class="bauhaus-section">
+            <div class="section-title-bar bg-black">
+                <div class="title-with-shape">
+                    <span class="mini-circle-yellow"></span>
+                    <h2 class="section-title">04 // SYSTEM ARCHITECTURE & TRAINING MATRIX</h2>
+                </div>
+                <span class="section-badge badge-red">CONSTRUCTIVIST PIPELINE</span>
+            </div>
+
+            <div class="architecture-grid">
+                <div class="arch-card">
+                    <div class="arch-corner-badge badge-shape-circle"></div>
+                    <div class="arch-step-num">01</div>
+                    <h3 class="arch-title">SYNTHETIC DEGRADATION</h3>
+                    <p class="arch-body">
+                        Clean color photographs are converted to Lab color space. Luminance ($L$) is extracted and subjected to random Bezier scratch vectors, film grain noise, and Gaussian defocus blur to create paired training data.
+                    </p>
+                </div>
+
+                <div class="arch-card">
+                    <div class="arch-corner-badge badge-shape-square"></div>
+                    <div class="arch-step-num">02</div>
+                    <h3 class="arch-title">U-NET GENERATOR</h3>
+                    <p class="arch-body">
+                        An 8-stage encoder-decoder network with skip connections directly transfers high-frequency spatial boundaries across the bottleneck, simultaneously inpainting missing scratches and inferring natural chrominance.
+                    </p>
+                </div>
+
+                <div class="arch-card">
+                    <div class="arch-corner-badge badge-shape-triangle"></div>
+                    <div class="arch-step-num">03</div>
+                    <h3 class="arch-title">70&times;70 PATCHGAN</h3>
+                    <p class="arch-body">
+                        Instead of evaluating global scalars, the PatchGAN discriminator classifies each local $70\times 70$ image tile as real or fake, penalizing blurry averages and enforcing razor-sharp edge realism.
+                    </p>
+                </div>
+
+                <div class="arch-card">
+                    <div class="arch-corner-badge badge-shape-rot-square"></div>
+                    <div class="arch-step-num">04</div>
+                    <h3 class="arch-title">ADVERSARIAL + L1 LOSS</h3>
+                    <p class="arch-body">
+                        The combined loss objective ($\mathcal{L}_{cGAN} + 100 \cdot \mathcal{L}_{L1}$) drives convergence. The L1 loss preserves structural fidelity to the scene while the adversarial loss enforces vivid natural color palettes.
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bauhaus-footer">
+        <div class="footer-container">
+            <div class="footer-left">
+                <div class="footer-shapes">
+                    <span class="foot-shape circle-red"></span>
+                    <span class="foot-shape square-blue"></span>
+                    <span class="foot-shape triangle-yellow"></span>
+                </div>
+                <div class="footer-brand">CHRONOS // GAN</div>
+                <p class="footer-text">
+                    GenAI Application Case Study &bull; Course 23CSE475: Generative AI<br>
+                    Department of Computer Science & Engineering, Amrita Vishwa Vidyapeetham
+                </p>
+            </div>
+            <div class="footer-right">
+                <div class="footer-quote">
+                    "FORM FOLLOWS FUNCTION"
+                </div>
+                <div class="footer-subquote">
+                    BAUHAUS WEIMAR &bull; DESSAU &bull; 1919&ndash;1933
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const slider = document.getElementById('slider');
+        const afterWrapper = document.getElementById('afterWrapper');
+        const handle = document.getElementById('sliderHandle');
+        const beforeImg = document.getElementById('beforeImg');
+        const afterImg = document.getElementById('afterImg');
+        const dropzone = document.getElementById('dropzone');
+        const fileInput = document.getElementById('fileInput');
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        const latencyStat = document.getElementById('latencyStat');
+        const resStat = document.getElementById('resStat');
+        const btnDownload = document.getElementById('btnDownload');
+        const btnToggleSplit = document.getElementById('btnToggleSplit');
+
+        let isDown = false;
+
+        function setSliderPos(xPercent) {
+            xPercent = Math.max(0, Math.min(100, xPercent));
+            afterWrapper.style.width = xPercent + '%';
+            handle.style.left = xPercent + '%';
+        }
+
+        function onMove(e) {
+            if (!isDown) return;
+            const rect = slider.getBoundingClientRect();
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const pos = ((clientX - rect.left) / rect.width) * 100;
+            setSliderPos(pos);
+        }
+
+        slider.addEventListener('mousedown', () => isDown = true);
+        window.addEventListener('mouseup', () => isDown = false);
+        window.addEventListener('mousemove', onMove);
+
+        slider.addEventListener('touchstart', () => isDown = true);
+        window.addEventListener('touchend', () => isDown = false);
+        window.addEventListener('touchmove', onMove);
+
+        // Initial 50% split
+        setSliderPos(50);
+
+        if (btnToggleSplit) {
+            btnToggleSplit.addEventListener('click', () => setSliderPos(50));
+        }
+
+        // Benchmark Sample Click
+        document.querySelectorAll('.sample-card').forEach(card => {
+            card.addEventListener('click', () => {
+                document.querySelectorAll('.sample-card').forEach(c => c.classList.remove('selected'));
+                card.classList.add('selected');
+                const sampleId = card.getAttribute('data-sample-id');
+                processSample(sampleId);
+            });
+        });
+
+        // Dropzone & File Upload
+        dropzone.addEventListener('click', () => fileInput.click());
+        dropzone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropzone.classList.add('dragover');
+        });
+        dropzone.addEventListener('dragleave', () => dropzone.classList.remove('dragover'));
+        dropzone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropzone.classList.remove('dragover');
+            if (e.dataTransfer.files.length) {
+                processFile(e.dataTransfer.files[0]);
+            }
+        });
+        fileInput.addEventListener('change', () => {
+            if (fileInput.files.length) {
+                processFile(fileInput.files[0]);
+            }
+        });
+
+        async function processSample(sampleId) {
+            loadingOverlay.style.display = 'flex';
+            const formData = new FormData();
+            formData.append('sample_id', sampleId);
+
+            try {
+                const res = await fetch('/api/restore', { method: 'POST', body: formData });
+                const data = await res.json();
+                handleResponse(data);
+            } catch (err) {
+                alert('Inference error: ' + err);
+            } finally {
+                loadingOverlay.style.display = 'none';
+            }
+        }
+
+        async function processFile(file) {
+            loadingOverlay.style.display = 'flex';
+            const formData = new FormData();
+            formData.append('image', file);
+
+            try {
+                const res = await fetch('/api/restore', { method: 'POST', body: formData });
+                const data = await res.json();
+                handleResponse(data);
+            } catch (err) {
+                alert('Inference error: ' + err);
+            } finally {
+                loadingOverlay.style.display = 'none';
+            }
+        }
+
+        function handleResponse(data) {
+            if (!data.success) {
+                alert('Error: ' + (data.error || 'Unknown error'));
+                return;
+            }
+            beforeImg.src = data.input_image;
+            afterImg.src = data.restored_image;
+            btnDownload.href = data.restored_image;
+
+            latencyStat.textContent = data.inference_time_ms + ' ms';
+            resStat.textContent = data.dimensions;
+            setSliderPos(50);
+        }
+    </script>
+</body>
+</html>

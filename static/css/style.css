@@ -1,0 +1,1082 @@
+/* ==========================================================================
+   BAUHAUS DESIGN SYSTEM — CHRONOS // GAN
+   Form Follows Function &bull; Constructivist Modernism &bull; 1920s Weimar & Dessau
+   ========================================================================== */
+
+:root {
+    /* Color Palette — Pure Primaries & Stark Neutrals */
+    --bg-canvas: #F0F0F0;
+    --foreground: #121212;
+    --primary-red: #D02020;
+    --primary-blue: #1040C0;
+    --primary-yellow: #F0C020;
+    --border-black: #121212;
+    --muted-gray: #E0E0E0;
+    --pure-white: #FFFFFF;
+
+    /* Binary Radii (No in-between rounded corners) */
+    --radius-none: 0px;
+    --radius-circle: 9999px;
+
+    /* Hard Layered Shadows (Never soft or blurred) */
+    --shadow-sm: 4px 4px 0px 0px #121212;
+    --shadow-md: 6px 6px 0px 0px #121212;
+    --shadow-lg: 8px 8px 0px 0px #121212;
+
+    /* Border System */
+    --border-4: 4px solid #121212;
+    --border-2: 2px solid #121212;
+
+    /* Typography */
+    --font-main: 'Outfit', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+}
+
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    border-radius: var(--radius-none);
+}
+
+body.bauhaus-canvas {
+    background-color: var(--bg-canvas);
+    color: var(--foreground);
+    font-family: var(--font-main);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+    position: relative;
+    /* Constructivist Subtle Dot Grid */
+    background-image: radial-gradient(rgba(18, 18, 18, 0.08) 1.5px, transparent 1.5px);
+    background-size: 24px 24px;
+}
+
+/* --------------------------------------------------------------------------
+   Top Geometric Marquee Banner
+   -------------------------------------------------------------------------- */
+.top-banner {
+    background-color: var(--foreground);
+    color: var(--pure-white);
+    border-bottom: var(--border-4);
+    padding: 0.5rem 1rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    overflow: hidden;
+}
+
+.banner-content {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+}
+
+.shape-bullet {
+    display: inline-block;
+}
+
+.circle-red {
+    width: 10px;
+    height: 10px;
+    background-color: var(--primary-red);
+    border-radius: var(--radius-circle);
+    border: 1px solid var(--pure-white);
+}
+
+.square-blue {
+    width: 10px;
+    height: 10px;
+    background-color: var(--primary-blue);
+    border-radius: var(--radius-none);
+    border: 1px solid var(--pure-white);
+}
+
+.triangle-yellow {
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-bottom: 10px solid var(--primary-yellow);
+}
+
+/* --------------------------------------------------------------------------
+   Header Navigation
+   -------------------------------------------------------------------------- */
+.header {
+    background-color: var(--pure-white);
+    border-bottom: var(--border-4);
+    padding: 1.25rem 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 4px 0px 0px rgba(18, 18, 18, 0.15);
+}
+
+.header-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+
+.brand-group {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+}
+
+/* Iconic Bauhaus Tri-Shape Logo */
+.bauhaus-logo {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border: var(--border-2);
+    padding: 6px 10px;
+    background: var(--bg-canvas);
+    box-shadow: var(--shadow-sm);
+}
+
+.logo-shape {
+    display: inline-block;
+}
+
+.shape-circle {
+    width: 22px;
+    height: 22px;
+    background-color: var(--primary-red);
+    border-radius: var(--radius-circle);
+    border: 2px solid var(--border-black);
+}
+
+.shape-square {
+    width: 20px;
+    height: 20px;
+    background-color: var(--primary-blue);
+    border-radius: var(--radius-none);
+    border: 2px solid var(--border-black);
+}
+
+.shape-triangle {
+    width: 0;
+    height: 0;
+    border-left: 11px solid transparent;
+    border-right: 11px solid transparent;
+    border-bottom: 20px solid var(--primary-yellow);
+}
+
+.brand-title {
+    font-size: 2.2rem;
+    font-weight: 900;
+    letter-spacing: -0.04em;
+    line-height: 0.95;
+    color: var(--foreground);
+    text-transform: uppercase;
+}
+
+.brand-title span {
+    color: var(--primary-red);
+    margin: 0 2px;
+}
+
+.brand-subtitle {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--foreground);
+    letter-spacing: 0.08em;
+    margin-top: 4px;
+}
+
+/* Team Box */
+.team-box {
+    border: var(--border-2);
+    background: var(--pure-white);
+    padding: 0.6rem 1rem;
+    box-shadow: var(--shadow-sm);
+    text-align: right;
+}
+
+.team-header {
+    font-size: 0.72rem;
+    font-weight: 900;
+    color: var(--primary-red);
+    letter-spacing: 0.06em;
+}
+
+.team-list {
+    display: flex;
+    flex-direction: column;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--foreground);
+    margin-top: 2px;
+    gap: 1px;
+}
+
+/* --------------------------------------------------------------------------
+   Main Layout & Structure
+   -------------------------------------------------------------------------- */
+.main-container {
+    max-width: 1280px;
+    width: 100%;
+    margin: 2.5rem auto;
+    padding: 0 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    flex: 1;
+}
+
+/* --------------------------------------------------------------------------
+   Hero Concept Block (Asymmetric Bauhaus Poster Style)
+   -------------------------------------------------------------------------- */
+.hero-block {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    border: var(--border-4);
+    background: var(--pure-white);
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+}
+
+.hero-text-panel {
+    padding: 3rem 2.5rem;
+    border-right: var(--border-4);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.constructivist-tag {
+    display: inline-block;
+    background-color: var(--primary-red);
+    color: var(--pure-white);
+    font-size: 0.75rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    padding: 0.35rem 0.75rem;
+    width: fit-content;
+    margin-bottom: 1rem;
+    border: 2px solid var(--border-black);
+    box-shadow: 2px 2px 0px var(--border-black);
+}
+
+.hero-headline {
+    font-size: 3.5rem;
+    font-weight: 900;
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
+    color: var(--foreground);
+    margin-bottom: 1.25rem;
+}
+
+.hero-description {
+    font-size: 1.05rem;
+    font-weight: 500;
+    line-height: 1.55;
+    color: #262626;
+    max-width: 650px;
+}
+
+/* Abstract Bauhaus Geometric Panel */
+.hero-graphic-panel {
+    background-color: var(--primary-blue);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    min-height: 280px;
+}
+
+.abstract-composition {
+    position: relative;
+    width: 220px;
+    height: 220px;
+}
+
+.comp-circle {
+    position: absolute;
+    width: 140px;
+    height: 140px;
+    border-radius: var(--radius-circle);
+    background-color: var(--primary-red);
+    border: var(--border-4);
+    top: 10px;
+    left: 10px;
+}
+
+.comp-square-rot {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    background-color: var(--primary-yellow);
+    border: var(--border-4);
+    transform: rotate(45deg);
+    top: 50px;
+    right: 10px;
+}
+
+.comp-square {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    background-color: var(--pure-white);
+    border: var(--border-4);
+    bottom: 20px;
+    left: 40px;
+}
+
+.comp-triangle {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-left: 35px solid transparent;
+    border-right: 35px solid transparent;
+    border-bottom: 60px solid var(--foreground);
+    bottom: 30px;
+    right: 40px;
+}
+
+.comp-label {
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--foreground);
+    color: var(--pure-white);
+    font-size: 0.72rem;
+    font-weight: 900;
+    padding: 0.2rem 0.5rem;
+    letter-spacing: 0.1em;
+}
+
+/* --------------------------------------------------------------------------
+   Sections & Title Bars (Color-Blocked Headers)
+   -------------------------------------------------------------------------- */
+.bauhaus-section {
+    border: var(--border-4);
+    background: var(--pure-white);
+    box-shadow: var(--shadow-lg);
+}
+
+.section-title-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.75rem;
+    border-bottom: var(--border-4);
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.bg-blue {
+    background-color: var(--primary-blue);
+    color: var(--pure-white);
+}
+
+.bg-yellow {
+    background-color: var(--primary-yellow);
+    color: var(--foreground);
+}
+
+.bg-red {
+    background-color: var(--primary-red);
+    color: var(--pure-white);
+}
+
+.bg-black {
+    background-color: var(--foreground);
+    color: var(--pure-white);
+}
+
+.title-with-shape {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.mini-square-yellow {
+    width: 14px;
+    height: 14px;
+    background: var(--primary-yellow);
+    border: 2px solid var(--border-black);
+}
+
+.mini-circle-red {
+    width: 16px;
+    height: 16px;
+    background: var(--primary-red);
+    border-radius: var(--radius-circle);
+    border: 2px solid var(--border-black);
+}
+
+.mini-triangle-white {
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 14px solid var(--pure-white);
+}
+
+.mini-circle-yellow {
+    width: 16px;
+    height: 16px;
+    background: var(--primary-yellow);
+    border-radius: var(--radius-circle);
+    border: 2px solid var(--pure-white);
+}
+
+.section-title {
+    font-size: 1.15rem;
+    font-weight: 900;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+}
+
+.section-badge {
+    background: var(--pure-white);
+    color: var(--foreground);
+    border: 2px solid var(--border-black);
+    padding: 0.25rem 0.65rem;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    box-shadow: 2px 2px 0px var(--border-black);
+}
+
+.badge-dark {
+    background: var(--foreground);
+    color: var(--pure-white);
+    border: 2px solid var(--foreground);
+}
+
+.badge-red {
+    background: var(--primary-red);
+    color: var(--pure-white);
+    border: 2px solid var(--pure-white);
+}
+
+/* --------------------------------------------------------------------------
+   Benchmark Presets Grid
+   -------------------------------------------------------------------------- */
+.samples-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+    padding: 2rem 1.75rem;
+    background: var(--bg-canvas);
+}
+
+.sample-card {
+    background: var(--pure-white);
+    border: var(--border-4);
+    box-shadow: var(--shadow-sm);
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    overflow: hidden;
+}
+
+.sample-card:hover {
+    transform: translate(-3px, -3px);
+    box-shadow: var(--shadow-md);
+}
+
+.sample-card.selected {
+    border-color: var(--primary-red);
+    box-shadow: 6px 6px 0px 0px var(--primary-red);
+}
+
+.card-geometric-corner {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 14px;
+    height: 14px;
+    z-index: 5;
+    border: 2px solid var(--border-black);
+}
+
+.corner-0 {
+    background-color: var(--primary-red);
+    border-radius: var(--radius-circle);
+}
+
+.corner-1 {
+    background-color: var(--primary-blue);
+    border-radius: var(--radius-none);
+}
+
+.corner-2 {
+    background-color: var(--primary-yellow);
+    transform: rotate(45deg);
+}
+
+.sample-thumb-wrapper {
+    width: 100%;
+    aspect-ratio: 16/10;
+    border-bottom: var(--border-4);
+    overflow: hidden;
+    background: #000;
+}
+
+.sample-thumb {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: grayscale(100%);
+    transition: filter 0.25s ease;
+}
+
+.sample-card:hover .sample-thumb {
+    filter: grayscale(0%);
+}
+
+.sample-info {
+    padding: 0.85rem 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--pure-white);
+}
+
+.sample-num {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--primary-red);
+}
+
+.sample-name {
+    font-size: 0.88rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    color: var(--foreground);
+}
+
+/* --------------------------------------------------------------------------
+   Dropzone Section
+   -------------------------------------------------------------------------- */
+.dropzone {
+    padding: 2.5rem 1.75rem;
+    background: var(--bg-canvas);
+    cursor: pointer;
+}
+
+.dropzone-inner {
+    border: 4px dashed var(--border-black);
+    background: var(--pure-white);
+    padding: 3rem 2rem;
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+    transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.dropzone:hover .dropzone-inner,
+.dropzone.dragover .dropzone-inner {
+    background: #FFFDF0;
+    transform: translate(-2px, -2px);
+    box-shadow: var(--shadow-md);
+}
+
+.file-input {
+    display: none;
+}
+
+.dropzone-icon-box {
+    width: 64px;
+    height: 64px;
+    background: var(--primary-yellow);
+    border: var(--border-4);
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.25rem;
+}
+
+.dropzone-header {
+    font-size: 1.2rem;
+    font-weight: 900;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--foreground);
+    margin-bottom: 0.5rem;
+}
+
+.dropzone-sub {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #4b5563;
+}
+
+/* --------------------------------------------------------------------------
+   Comparison Split Slider (Constructivist Frame)
+   -------------------------------------------------------------------------- */
+.meta-strip {
+    display: flex;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+}
+
+.meta-chip {
+    background: var(--pure-white);
+    border: 2px solid var(--border-black);
+    padding: 0.2rem 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 700;
+    box-shadow: 2px 2px 0px var(--border-black);
+}
+
+.chip-label {
+    color: var(--primary-red);
+    margin-right: 4px;
+}
+
+.chip-val {
+    color: var(--foreground);
+}
+
+.canvas-frame {
+    padding: 2rem 1.75rem;
+    background: var(--bg-canvas);
+    display: flex;
+    justify-content: center;
+}
+
+.comparison-slider {
+    position: relative;
+    width: 100%;
+    max-width: 820px;
+    aspect-ratio: 16/11;
+    border: var(--border-4);
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+    user-select: none;
+    background: #000;
+}
+
+.img-pane {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.img-pane img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    background: #000;
+}
+
+.after-pane {
+    width: 50%;
+    border-right: 4px solid var(--primary-yellow);
+    z-index: 10;
+}
+
+.after-pane img {
+    width: 820px;
+    max-width: none;
+}
+
+/* Bauhaus Badges on Images */
+.pane-flag {
+    position: absolute;
+    bottom: 14px;
+    padding: 0.45rem 0.85rem;
+    font-size: 0.75rem;
+    font-weight: 900;
+    letter-spacing: 0.06em;
+    border: 2px solid var(--border-black);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: var(--shadow-sm);
+    pointer-events: none;
+}
+
+.before-flag {
+    right: 14px;
+    background-color: var(--pure-white);
+    color: var(--foreground);
+}
+
+.after-flag {
+    left: 14px;
+    background-color: var(--primary-blue);
+    color: var(--pure-white);
+}
+
+.square-black {
+    width: 8px;
+    height: 8px;
+    background: var(--foreground);
+}
+
+.circle-white {
+    width: 8px;
+    height: 8px;
+    background: var(--pure-white);
+    border-radius: var(--radius-circle);
+}
+
+/* Slider Handle */
+.slider-divider {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    z-index: 20;
+    cursor: ew-resize;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.divider-line {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: var(--foreground);
+}
+
+.divider-grabber {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    background: var(--primary-yellow);
+    border: var(--border-4);
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 4px;
+    z-index: 25;
+    cursor: ew-resize;
+}
+
+.grabber-arrow {
+    font-size: 0.7rem;
+    color: var(--foreground);
+    font-weight: 900;
+}
+
+.grabber-center {
+    width: 8px;
+    height: 8px;
+    background: var(--primary-red);
+    border: 1px solid var(--border-black);
+}
+
+/* Action Strip & Buttons */
+.action-strip {
+    padding: 1.25rem 1.75rem;
+    background: var(--pure-white);
+    border-top: var(--border-4);
+    display: flex;
+    justify-content: flex-end;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+}
+
+.bauhaus-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.85rem 1.75rem;
+    font-size: 0.88rem;
+    font-weight: 900;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: var(--border-4);
+    box-shadow: var(--shadow-sm);
+    cursor: pointer;
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.btn-primary {
+    background-color: var(--primary-red);
+    color: var(--pure-white);
+}
+
+.btn-secondary {
+    background-color: var(--primary-blue);
+    color: var(--pure-white);
+}
+
+.bauhaus-btn:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: var(--shadow-md);
+}
+
+/* Mechanical Push Interaction */
+.bauhaus-btn:active {
+    transform: translate(2px, 2px);
+    box-shadow: none;
+}
+
+.btn-dot {
+    width: 8px;
+    height: 8px;
+    border: 1px solid var(--border-black);
+}
+
+.dot-yellow {
+    background-color: var(--primary-yellow);
+}
+
+.dot-white {
+    background-color: var(--pure-white);
+}
+
+/* --------------------------------------------------------------------------
+   Loading Overlay
+   -------------------------------------------------------------------------- */
+.loading-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(240, 240, 240, 0.92);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+    backdrop-filter: blur(4px);
+}
+
+.loading-box {
+    background: var(--pure-white);
+    border: var(--border-4);
+    box-shadow: var(--shadow-lg);
+    padding: 2rem 2.5rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+}
+
+.loading-spinner {
+    width: 48px;
+    height: 48px;
+    border: 6px solid var(--border-black);
+    border-top-color: var(--primary-red);
+    border-right-color: var(--primary-blue);
+    border-bottom-color: var(--primary-yellow);
+    border-radius: var(--radius-circle);
+    animation: bauhaus-spin 0.8s linear infinite;
+}
+
+@keyframes bauhaus-spin {
+    to { transform: rotate(360deg); }
+}
+
+.loading-text {
+    font-size: 0.85rem;
+    font-weight: 900;
+    letter-spacing: 0.06em;
+    color: var(--foreground);
+}
+
+/* --------------------------------------------------------------------------
+   Architecture Grid (04 System Architecture)
+   -------------------------------------------------------------------------- */
+.architecture-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+    padding: 2rem 1.75rem;
+    background: var(--bg-canvas);
+}
+
+.arch-card {
+    background: var(--pure-white);
+    border: var(--border-4);
+    box-shadow: var(--shadow-sm);
+    padding: 1.75rem 1.5rem;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.arch-corner-badge {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 16px;
+    height: 16px;
+    border: 2px solid var(--border-black);
+}
+
+.badge-shape-circle {
+    background: var(--primary-red);
+    border-radius: var(--radius-circle);
+}
+
+.badge-shape-square {
+    background: var(--primary-blue);
+    border-radius: var(--radius-none);
+}
+
+.badge-shape-triangle {
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 16px solid var(--primary-yellow);
+    border-top: none;
+}
+
+.badge-shape-rot-square {
+    background: var(--foreground);
+    transform: rotate(45deg);
+}
+
+.arch-step-num {
+    font-family: var(--font-mono);
+    font-size: 2.2rem;
+    font-weight: 900;
+    line-height: 1;
+    color: var(--primary-blue);
+    margin-bottom: 0.75rem;
+}
+
+.arch-title {
+    font-size: 1.05rem;
+    font-weight: 900;
+    letter-spacing: 0.02em;
+    color: var(--foreground);
+    margin-bottom: 0.65rem;
+}
+
+.arch-body {
+    font-size: 0.88rem;
+    font-weight: 500;
+    line-height: 1.55;
+    color: #374151;
+}
+
+/* --------------------------------------------------------------------------
+   Bauhaus Footer
+   -------------------------------------------------------------------------- */
+.bauhaus-footer {
+    background: var(--foreground);
+    color: var(--pure-white);
+    border-top: var(--border-4);
+    padding: 2.5rem 2rem;
+    margin-top: auto;
+}
+
+.footer-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+.footer-shapes {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 0.75rem;
+}
+
+.foot-shape {
+    display: inline-block;
+}
+
+.footer-brand {
+    font-size: 1.4rem;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.4rem;
+}
+
+.footer-text {
+    font-size: 0.82rem;
+    font-weight: 500;
+    line-height: 1.5;
+    color: #9ca3af;
+}
+
+.footer-right {
+    text-align: right;
+}
+
+.footer-quote {
+    font-size: 1.35rem;
+    font-weight: 900;
+    letter-spacing: 0.04em;
+    color: var(--primary-yellow);
+}
+
+.footer-subquote {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--pure-white);
+    letter-spacing: 0.08em;
+    margin-top: 4px;
+}
+
+/* --------------------------------------------------------------------------
+   Responsive Breakpoints
+   -------------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+    .hero-block {
+        grid-template-columns: 1fr;
+    }
+    .hero-text-panel {
+        border-right: none;
+        border-bottom: var(--border-4);
+    }
+    .hero-headline {
+        font-size: 2.8rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .header-container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .team-box {
+        text-align: left;
+        width: 100%;
+    }
+    .hero-headline {
+        font-size: 2.2rem;
+    }
+    .after-pane img {
+        width: 100vw;
+    }
+    .footer-container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .footer-right {
+        text-align: left;
+    }
+}

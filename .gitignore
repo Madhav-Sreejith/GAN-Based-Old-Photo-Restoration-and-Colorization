@@ -1,0 +1,84 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environments
+.venv/
+venv/
+ENV/
+env/
+env.bak/
+venv.bak/
+
+# Jupyter Notebook Checkpoints
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/*
+
+# Model Checkpoints (Files > 100MB rejected by GitHub)
+/checkpoints/*
+!/checkpoints/.gitkeep
+*.pth
+*.pt
+*.ckpt
+*.bin
+*.h5
+*.onnx
+
+# Raw Image Dataset (Exceeds GitHub repository size limits)
+/Landscape/
+/data/
+/datasets/
+
+# Training visual samples and logs
+/samples/
+runs/
+wandb/
+*.log
+
+# Web App User Uploads (keep directory structure with .gitkeep)
+static/uploads/*
+!static/uploads/.gitkeep
+
+# Output / temporary images from testing
+sample_degradation.png
+test_restored_*.png
+restored_output*.png
+
+# Environments & Secrets
+.env
+.env.local
+
+# Operating System files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+
+# IDE and Editor configurations
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
