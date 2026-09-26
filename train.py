@@ -131,17 +131,37 @@ def train_pix2pix(args):
     scheduler_G = torch.optim.lr_scheduler.LambdaLR(optimizer_G, lr_lambda=lr_lambda)
     scheduler_D = torch.optim.lr_scheduler.LambdaLR(optimizer_D, lr_lambda=lr_lambda)
     
-    # Initial sample before training
-    print("Generating baseline sample before training...")
-    save_sample_grid(netG, fixed_val_batch, 0, 0, args.sample_dir, device)
-    
     best_val_psnr = -1.0
     history = {'loss_G': [], 'loss_D': [], 'loss_L1': [], 'val_psnr': []}
+    start_epoch = 1
+    
+    # Check for resume
+    latest_ckpt = os.path.join(args.checkpoint_dir, 'latest_checkpoint.pth')
+    if args.resume and os.path.exists(latest_ckpt):
+        print(f"Resuming training from: {latest_ckpt}")
+        ckpt = torch.load(latest_ckpt, map_location=device)
+        netG.load_state_dict(ckpt['netG'])
+        netD.load_state_dict(ckpt['netD'])
+        optimizer_G.load_state_dict(ckpt['optimizer_G'])
+        optimizer_D.load_state_dict(ckpt['optimizer_D'])
+        start_epoch = ckpt['epoch'] + 1
+        history = ckpt.get('history', history)
+        if history.get('val_psnr') and len(history['val_psnr']) > 0:
+            best_val_psnr = max(history['val_psnr'])
+        # Advance learning rate schedulers to match resumed epoch
+        for _ in range(1, start_epoch):
+            scheduler_G.step()
+            scheduler_D.step()
+        print(f"Resumed successfully at Epoch {start_epoch}! (Best Val PSNR so far: {best_val_psnr:.2f} dB)")
+    else:
+        # Initial sample before fresh training
+        print("Generating baseline sample before training...")
+        save_sample_grid(netG, fixed_val_batch, 0, 0, args.sample_dir, device)
     
     total_steps = 0
     start_time = time.time()
     
-    for epoch in range(1, args.epochs + 1):
+    for epoch in range(start_epoch, args.epochs + 1):
         epoch_start = time.time()
         running_loss_G = 0.0
         running_loss_D = 0.0
@@ -284,6 +304,7 @@ if __name__ == '__main__':
     parser.add_argument('--log_interval', type=int, default=25, help="Batches between terminal progress logs")
     parser.add_argument('--sample_interval', type=int, default=100, help="Steps between visual sample generation")
     parser.add_argument('--max_batches', type=int, default=None, help="Max batches per epoch (useful for test runs)")
+    parser.add_argument('--resume', action='store_true', help="Resume training from latest_checkpoint.pth")
     parser.add_argument('--no_cuda', action='store_true', help="Disable CUDA acceleration")
     
     args = parser.parse_args()
