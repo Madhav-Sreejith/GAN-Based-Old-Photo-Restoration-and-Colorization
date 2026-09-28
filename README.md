@@ -6,21 +6,6 @@
 
 A Deep Learning framework using **Pix2Pix Conditional Generative Adversarial Networks (cGAN)** to restore and colorize degraded vintage photographs. The pipeline synthetically simulates realistic photo decay (scratches, dust, noise, blur, and fading) and trains a skip-connected U-Net generator with a PatchGAN discriminator to jointly remove defects and reconstruct natural color.
 
----
-
-## 👥 Academic Project & Team Information
-
-- **Course Code:** 23CSE475 — Generative AI
-- **Case Study:** Lab 3 — GenAI Application Case Study
-- **Institution:** Amrita Vishwa Vidyapeetham
-
-| Register Number | Name |
-| :--- | :--- |
-| **CB.SC.U4CSE23504** | ASHIN VARGHESE |
-| **CB.SC.U4CSE23644** | VISHNU SATHWICK |
-| **CB.SC.U4CSE23661** | MADHAV SREEJITH |
-
----
 
 ## 🌟 Key Features
 
