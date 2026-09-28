@@ -175,10 +175,10 @@ body.bauhaus-canvas {
 }
 
 .brand-title {
-    font-size: 2.2rem;
+    font-size: 1.85rem;
     font-weight: 900;
-    letter-spacing: -0.04em;
-    line-height: 0.95;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
     color: var(--foreground);
     text-transform: uppercase;
 }
@@ -851,6 +851,20 @@ body.bauhaus-canvas {
     background-color: var(--pure-white);
 }
 
+.dot-blue {
+    background-color: var(--primary-blue);
+}
+
+.dot-green {
+    background-color: #00b050;
+}
+
+.bauhaus-btn.btn-active {
+    background-color: var(--primary-yellow);
+    border-color: var(--foreground);
+    color: var(--foreground);
+}
+
 /* --------------------------------------------------------------------------
    Loading Overlay
    -------------------------------------------------------------------------- */
@@ -1062,9 +1076,8 @@ body.bauhaus-canvas {
         flex-direction: column;
         align-items: flex-start;
     }
-    .team-box {
-        text-align: left;
-        width: 100%;
+    .brand-title {
+        font-size: 1.35rem;
     }
     .hero-headline {
         font-size: 2.2rem;

@@ -37,9 +37,11 @@ else:
     print("Warning: Generator checkpoint not found. Model will initialize upon training.")
 
 
-def run_inference(pil_img, image_size=256):
+def run_inference(pil_img, image_size=256, preserve_details=False):
     """
     Runs generator on input PIL image and returns restored PIL image.
+    If preserve_details is True and image is larger than 256x256,
+    fuses original high-res luminance (L) with GAN-synthesized chrominance (a, b).
     """
     global generator
     if generator is None:
@@ -51,9 +53,10 @@ def run_inference(pil_img, image_size=256):
     if pil_img.mode != 'L':
         rgb_np = np.array(pil_img.convert('RGB'))
         lab = cv2.cvtColor(rgb_np, cv2.COLOR_RGB2LAB)
-        L = lab[:, :, 0]
-        input_pil = Image.fromarray(L, mode='L')
+        orig_L = lab[:, :, 0]
+        input_pil = Image.fromarray(orig_L, mode='L')
     else:
+        orig_L = np.array(pil_img)
         input_pil = pil_img
 
     transform = T.Compose([
@@ -72,7 +75,16 @@ def run_inference(pil_img, image_size=256):
     # Denormalize output [-1, 1] to [0, 255] uint8 RGB
     out_np = (output_tensor.squeeze(0).permute(1, 2, 0).cpu().numpy() * 0.5 + 0.5).clip(0, 1)
     restored_pil = Image.fromarray((out_np * 255).astype(np.uint8))
-    restored_resized = restored_pil.resize((orig_w, orig_h), Image.Resampling.LANCZOS)
+    
+    if preserve_details and (orig_w > image_size or orig_h > image_size):
+        # HD Chroma Fusion: combine native high-res L with GAN a, b channels
+        restored_large = restored_pil.resize((orig_w, orig_h), Image.Resampling.LANCZOS)
+        restored_lab = cv2.cvtColor(np.array(restored_large), cv2.COLOR_RGB2LAB)
+        fused_lab = cv2.merge([orig_L, restored_lab[:, :, 1], restored_lab[:, :, 2]])
+        restored_resized = Image.fromarray(cv2.cvtColor(fused_lab, cv2.COLOR_LAB2RGB))
+    else:
+        # Standard direct GAN output as documented in report
+        restored_resized = restored_pil.resize((orig_w, orig_h), Image.Resampling.LANCZOS)
     
     return input_pil, restored_resized, inference_time_ms
 
@@ -97,8 +109,10 @@ def index():
 @app.route('/api/restore', methods=['POST'])
 def restore():
     try:
-        # Check if sample ID was passed
+        # Check if sample ID or image file was passed
         sample_id = request.form.get('sample_id')
+        preserve_details = request.form.get('preserve_details', 'false').lower() == 'true'
+
         if sample_id:
             sample_path = os.path.join(os.path.dirname(__file__), 'static', 'samples', f'sample_{sample_id}_degraded.png')
             if not os.path.exists(sample_path):
@@ -112,7 +126,7 @@ def restore():
         else:
             return jsonify({'error': 'No image provided'}), 400
 
-        input_pil, restored_pil, inf_time = run_inference(img)
+        input_pil, restored_pil, inf_time = run_inference(img, preserve_details=preserve_details)
 
         # Convert images to base64 for instant display without disk clutter
         input_b64 = "data:image/png;base64," + pil_to_base64(input_pil)

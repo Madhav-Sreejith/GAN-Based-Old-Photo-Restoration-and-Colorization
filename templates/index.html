@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CHRONOS // GAN — Bauhaus Photo Restoration & Colorization</title>
+    <title>Old Photo Restoration & Colorization — Conditional GAN</title>
     <!-- Google Fonts: Outfit -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,20 +11,6 @@
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body class="bauhaus-canvas">
-    <!-- Top Geometric Marquee Banner -->
-    <div class="top-banner">
-        <div class="banner-content">
-            <span class="shape-bullet circle-red"></span>
-            <span>AMRITA VISHWA VIDYAPEETHAM</span>
-            <span class="shape-bullet square-blue"></span>
-            <span>COURSE: 23CSE475 GENERATIVE AI</span>
-            <span class="shape-bullet triangle-yellow"></span>
-            <span>LAB 3: GENAI APPLICATION CASE STUDY</span>
-            <span class="shape-bullet circle-red"></span>
-            <span>CONDITIONAL GAN (PIX2PIX)</span>
-        </div>
-    </div>
-
     <!-- Header Navigation -->
     <header class="header">
         <div class="header-container">
@@ -36,18 +22,8 @@
                     <span class="logo-shape shape-triangle"></span>
                 </div>
                 <div class="brand-text">
-                    <h1 class="brand-title">CHRONOS<span>//</span>GAN</h1>
-                    <p class="brand-subtitle">OLD PHOTO RESTORATION & COLORIZATION</p>
-                </div>
-            </div>
-
-            <!-- Team Information Box -->
-            <div class="team-box">
-                <div class="team-header">TEAM 01 // CASE STUDY</div>
-                <div class="team-list">
-                    <span>ASHIN VARGHESE &bull; CB.SC.U4CSE23504</span>
-                    <span>VISHNU SATHWICK &bull; CB.SC.U4CSE23644</span>
-                    <span>MADHAV SREEJITH &bull; CB.SC.U4CSE23661</span>
+                    <h1 class="brand-title">OLD PHOTO RESTORATION <span>&</span> COLORIZATION</h1>
+                    <p class="brand-subtitle">CONDITIONAL GAN (PIX2PIX) DEEP LEARNING MODEL</p>
                 </div>
             </div>
         </div>
@@ -62,7 +38,7 @@
                 <h2 class="hero-headline">FORM FOLLOWS RESTORATION.</h2>
                 <p class="hero-description">
                     Historical photographs suffer from scratches, noise, blur, and chromatic loss. 
-                    ChronosGAN uses a <strong>Conditional Generative Adversarial Network (U-Net + 70&times;70 PatchGAN)</strong> 
+                    This model uses a <strong>Conditional Generative Adversarial Network (U-Net + 70&times;70 PatchGAN)</strong> 
                     trained on 4,319 landscape scenes to hallucinate lost colors and reconstruct degraded visual luminance.
                 </p>
             </div>
@@ -197,7 +173,11 @@
                     <span class="btn-dot dot-yellow"></span>
                     RESET TO 50/50 VIEW
                 </button>
-                <a class="bauhaus-btn btn-primary" id="btnDownload" download="chronosgan_restored.png" href="#">
+                <button class="bauhaus-btn btn-secondary" id="btnToggleHD" title="Fuses original photo's native high-res sharpness with GAN colors. Recommended for clean high-res B&W photos!">
+                    <span class="btn-dot dot-blue" id="hdDot"></span>
+                    <span id="hdText">HD DETAIL FUSION: OFF</span>
+                </button>
+                <a class="bauhaus-btn btn-primary" id="btnDownload" download="restored_photo.png" href="#">
                     <span class="btn-dot dot-white"></span>
                     DOWNLOAD RESTORED PHOTO
                 </a>
@@ -263,7 +243,7 @@
                     <span class="foot-shape square-blue"></span>
                     <span class="foot-shape triangle-yellow"></span>
                 </div>
-                <div class="footer-brand">CHRONOS // GAN</div>
+                <div class="footer-brand">PHOTO RESTORATION &amp; COLORIZATION</div>
                 <p class="footer-text">
                     GenAI Application Case Study &bull; Course 23CSE475: Generative AI<br>
                     Department of Computer Science & Engineering, Amrita Vishwa Vidyapeetham
@@ -293,8 +273,14 @@
         const resStat = document.getElementById('resStat');
         const btnDownload = document.getElementById('btnDownload');
         const btnToggleSplit = document.getElementById('btnToggleSplit');
+        const btnToggleHD = document.getElementById('btnToggleHD');
+        const hdDot = document.getElementById('hdDot');
+        const hdText = document.getElementById('hdText');
 
         let isDown = false;
+        let hdEnabled = false;
+        let currentSampleId = null;
+        let currentFile = null;
 
         function setSliderPos(xPercent) {
             xPercent = Math.max(0, Math.min(100, xPercent));
@@ -323,6 +309,28 @@
 
         if (btnToggleSplit) {
             btnToggleSplit.addEventListener('click', () => setSliderPos(50));
+        }
+
+        if (btnToggleHD) {
+            btnToggleHD.addEventListener('click', () => {
+                hdEnabled = !hdEnabled;
+                if (hdEnabled) {
+                    hdDot.className = 'btn-dot dot-green';
+                    hdText.textContent = 'HD DETAIL FUSION: ON';
+                    btnToggleHD.classList.add('btn-active');
+                } else {
+                    hdDot.className = 'btn-dot dot-blue';
+                    hdText.textContent = 'HD DETAIL FUSION: OFF';
+                    btnToggleHD.classList.remove('btn-active');
+                }
+
+                // If an image is currently loaded, re-process with the new mode
+                if (currentFile) {
+                    processFile(currentFile);
+                } else if (currentSampleId) {
+                    processSample(currentSampleId);
+                }
+            });
         }
 
         // Benchmark Sample Click
@@ -356,9 +364,12 @@
         });
 
         async function processSample(sampleId) {
+            currentSampleId = sampleId;
+            currentFile = null;
             loadingOverlay.style.display = 'flex';
             const formData = new FormData();
             formData.append('sample_id', sampleId);
+            formData.append('preserve_details', hdEnabled ? 'true' : 'false');
 
             try {
                 const res = await fetch('/api/restore', { method: 'POST', body: formData });
@@ -372,9 +383,12 @@
         }
 
         async function processFile(file) {
+            currentFile = file;
+            currentSampleId = null;
             loadingOverlay.style.display = 'flex';
             const formData = new FormData();
             formData.append('image', file);
+            formData.append('preserve_details', hdEnabled ? 'true' : 'false');
 
             try {
                 const res = await fetch('/api/restore', { method: 'POST', body: formData });
