@@ -35,7 +35,7 @@
         <section class="hero-block">
             <div class="hero-text-panel">
                 <span class="constructivist-tag">PIX2PIX IMAGE-TO-IMAGE TRANSLATION</span>
-                <h2 class="hero-headline">FORM FOLLOWS RESTORATION.</h2>
+                <h2 class="hero-headline">RESTORING HISTORY WITH GENERATIVE AI.</h2>
                 <p class="hero-description">
                     Historical photographs suffer from scratches, noise, blur, and chromatic loss. 
                     This model uses a <strong>Conditional Generative Adversarial Network (U-Net + 70&times;70 PatchGAN)</strong> 
@@ -48,7 +48,6 @@
                     <div class="comp-square-rot"></div>
                     <div class="comp-square"></div>
                     <div class="comp-triangle"></div>
-                    <div class="comp-label">1926 &bull; 2026</div>
                 </div>
             </div>
         </section>
@@ -195,40 +194,67 @@
             </div>
 
             <div class="architecture-grid">
+                <!-- Card 01 -->
                 <div class="arch-card">
                     <div class="arch-corner-badge badge-shape-circle"></div>
-                    <div class="arch-step-num">01</div>
+                    <div class="arch-step-num color-red">01</div>
                     <h3 class="arch-title">SYNTHETIC DEGRADATION</h3>
                     <p class="arch-body">
-                        Clean color photographs are converted to Lab color space. Luminance ($L$) is extracted and subjected to random Bezier scratch vectors, film grain noise, and Gaussian defocus blur to create paired training data.
+                        Clean color photographs are converted to CIELAB space. The Luminance (<span class="arch-math">L</span>) channel is extracted and subjected to random Bezier scratch vectors, film grain noise, and Gaussian defocus blur to create paired training supervision.
                     </p>
+                    <div class="arch-tags">
+                        <span class="arch-tag tag-red">CIELAB SPACE</span>
+                        <span class="arch-tag">L-CHANNEL INPUT</span>
+                        <span class="arch-tag">BEZIER SCRATCHES</span>
+                    </div>
                 </div>
 
+                <!-- Card 02 -->
                 <div class="arch-card">
                     <div class="arch-corner-badge badge-shape-square"></div>
-                    <div class="arch-step-num">02</div>
+                    <div class="arch-step-num color-blue">02</div>
                     <h3 class="arch-title">U-NET GENERATOR</h3>
                     <p class="arch-body">
-                        An 8-stage encoder-decoder network with skip connections directly transfers high-frequency spatial boundaries across the bottleneck, simultaneously inpainting missing scratches and inferring natural chrominance.
+                        An 8-stage symmetrical encoder-decoder network with skip connections directly transfers high-frequency spatial boundaries across the bottleneck, inpainting missing scratches and inferring natural chrominance.
                     </p>
+                    <div class="arch-tags">
+                        <span class="arch-tag tag-blue">U-NET 256</span>
+                        <span class="arch-tag">8 SKIP CONNECTIONS</span>
+                        <span class="arch-tag">54.4M PARAMS</span>
+                    </div>
                 </div>
 
+                <!-- Card 03 -->
                 <div class="arch-card">
                     <div class="arch-corner-badge badge-shape-triangle"></div>
-                    <div class="arch-step-num">03</div>
+                    <div class="arch-step-num color-yellow">03</div>
                     <h3 class="arch-title">70&times;70 PATCHGAN</h3>
                     <p class="arch-body">
-                        Instead of evaluating global scalars, the PatchGAN discriminator classifies each local $70\times 70$ image tile as real or fake, penalizing blurry averages and enforcing razor-sharp edge realism.
+                        Instead of evaluating global scalars, the PatchGAN discriminator classifies each local <span class="arch-math">70 &times; 70</span> image tile as real or fake, penalizing blurry averages and enforcing razor-sharp edge realism across the scene.
                     </p>
+                    <div class="arch-tags">
+                        <span class="arch-tag tag-yellow">PATCHGAN</span>
+                        <span class="arch-tag">70&times;70 RECEPTIVE FIELD</span>
+                        <span class="arch-tag">MARKOVIAN DISCRIMINATOR</span>
+                    </div>
                 </div>
 
+                <!-- Card 04 -->
                 <div class="arch-card">
                     <div class="arch-corner-badge badge-shape-rot-square"></div>
-                    <div class="arch-step-num">04</div>
+                    <div class="arch-step-num color-black">04</div>
                     <h3 class="arch-title">ADVERSARIAL + L1 LOSS</h3>
+                    <div class="arch-formula-box">
+                        <span class="formula-term">ℒ<sub>final</sub></span> = <span class="formula-term">ℒ<sub>cGAN</sub></span> + <span class="formula-coeff">100</span> &sdot; <span class="formula-term">ℒ<sub>L1</sub></span>
+                    </div>
                     <p class="arch-body">
-                        The combined loss objective ($\mathcal{L}_{cGAN} + 100 \cdot \mathcal{L}_{L1}$) drives convergence. The L1 loss preserves structural fidelity to the scene while the adversarial loss enforces vivid natural color palettes.
+                        The combined loss objective drives convergence. The <span class="arch-math">L1</span> loss preserves structural fidelity to the input scene, while the adversarial loss (<span class="arch-math">ℒ<sub>cGAN</sub></span>) forces the generator to hallucinate rich, realistic color distributions.
                     </p>
+                    <div class="arch-tags">
+                        <span class="arch-tag tag-black">&lambda; = 100</span>
+                        <span class="arch-tag">ADAM (lr=2e-4)</span>
+                        <span class="arch-tag">DUAL OBJECTIVE</span>
+                    </div>
                 </div>
             </div>
         </section>
@@ -251,10 +277,10 @@
             </div>
             <div class="footer-right">
                 <div class="footer-quote">
-                    "FORM FOLLOWS FUNCTION"
+                    CONDITIONAL GAN // PIX2PIX
                 </div>
                 <div class="footer-subquote">
-                    BAUHAUS WEIMAR &bull; DESSAU &bull; 1919&ndash;1933
+                    U-NET GENERATOR &bull; 70&times;70 PATCHGAN DISCRIMINATOR
                 </div>
             </div>
         </div>
@@ -339,6 +365,15 @@
                 document.querySelectorAll('.sample-card').forEach(c => c.classList.remove('selected'));
                 card.classList.add('selected');
                 const sampleId = card.getAttribute('data-sample-id');
+
+                // For scratched benchmark presets, auto-switch to pure GAN mode
+                if (hdEnabled) {
+                    hdEnabled = false;
+                    hdDot.className = 'btn-dot dot-blue';
+                    hdText.textContent = 'HD DETAIL FUSION: OFF';
+                    btnToggleHD.classList.remove('btn-active');
+                }
+
                 processSample(sampleId);
             });
         });

@@ -932,6 +932,12 @@ body.bauhaus-canvas {
     position: relative;
     display: flex;
     flex-direction: column;
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.arch-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 6px 6px 0px 0px var(--border-black);
 }
 
 .arch-corner-badge {
@@ -976,6 +982,11 @@ body.bauhaus-canvas {
     margin-bottom: 0.75rem;
 }
 
+.arch-step-num.color-red { color: var(--primary-red); }
+.arch-step-num.color-blue { color: var(--primary-blue); }
+.arch-step-num.color-yellow { color: #d97706; }
+.arch-step-num.color-black { color: var(--foreground); }
+
 .arch-title {
     font-size: 1.05rem;
     font-weight: 900;
@@ -989,6 +1000,84 @@ body.bauhaus-canvas {
     font-weight: 500;
     line-height: 1.55;
     color: #374151;
+    margin-bottom: 1rem;
+    flex-grow: 1;
+}
+
+.arch-math {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-style: normal;
+    color: var(--primary-red);
+    background: rgba(229, 57, 53, 0.08);
+    padding: 1px 5px;
+    border: 1px solid rgba(229, 57, 53, 0.25);
+    border-radius: 2px;
+}
+
+.arch-formula-box {
+    background: #18181b;
+    color: #f4f4f5;
+    padding: 0.6rem 0.8rem;
+    border: 2px solid var(--border-black);
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    margin-bottom: 0.85rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    box-shadow: 2px 2px 0px 0px var(--border-black);
+}
+
+.formula-term {
+    color: #38bdf8;
+}
+
+.formula-coeff {
+    color: #facc15;
+}
+
+.arch-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: auto;
+    padding-top: 0.75rem;
+    border-top: 1px dashed rgba(18, 18, 18, 0.2);
+}
+
+.arch-tag {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 2px 7px;
+    border: 1.5px solid var(--border-black);
+    background: var(--bg-canvas);
+    color: var(--foreground);
+    letter-spacing: 0.03em;
+}
+
+.arch-tag.tag-red {
+    background: var(--primary-red);
+    color: var(--pure-white);
+}
+
+.arch-tag.tag-blue {
+    background: var(--primary-blue);
+    color: var(--pure-white);
+}
+
+.arch-tag.tag-yellow {
+    background: var(--primary-yellow);
+    color: var(--foreground);
+}
+
+.arch-tag.tag-black {
+    background: var(--foreground);
+    color: var(--pure-white);
 }
 
 /* --------------------------------------------------------------------------
